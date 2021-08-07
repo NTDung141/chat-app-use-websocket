@@ -1,0 +1,5 @@
+.chat-message {
+    height: calc(94vh - 75px);
+    overflow-x: hidden;
+    padding: 15px 15px 15px 15px;
+}
