@@ -31,6 +31,8 @@ const ShowHeader = () => {
 function HeaderComponent() {
     const isLogged = useSelector(state => state.AuthReducer.isLogged)
 
+    const myUsername = useSelector(state => state.AuthReducer.username)
+
     if (isLogged) {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -42,6 +44,9 @@ function HeaderComponent() {
                     </div>
 
                     <ul className="navbar-nav justify-content-end">
+                        <li className="nav-item">
+                            Chào {myUsername}
+                        </li>
                         <li className="nav-item">
                             <NavLink to="/logout" className="nav-link">
                                 Log out

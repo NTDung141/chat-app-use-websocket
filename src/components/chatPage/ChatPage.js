@@ -1,10 +1,11 @@
 import ChatMessage from "../chatMessage/ChatMessage"
 import "./ChatPage.css"
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import SockJS from 'sockjs-client'
 import * as Stomp from 'stompjs'
 import axios from "axios";
+import * as messageActions from "../../redux/actions/MessageAction"
 
 function ChatPage() {
     const [message, setMessage] = useState({
@@ -12,13 +13,11 @@ function ChatPage() {
         content: ""
     })
 
-    const [stompClientState, setStompClientState] = useState({})
-
     var stompClient = null
 
-    const [messageList, setMessageList] = useState([])
-
     const myUsername = useSelector(state => state.AuthReducer.username)
+    const messageList = useSelector(state => state.MessageReducer)
+    const dispatch = useDispatch()
 
     const handleInputChange = (e) => {
         const { name, value } = e.target
@@ -30,8 +29,8 @@ function ChatPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setMessageList([...messageList, message])
-        send()
+        dispatch(messageActions.dispatchSendMessage(message))
+        sendMessage()
         setMessage({
             username: "",
             content: ""
@@ -48,14 +47,7 @@ function ChatPage() {
         stompClient = Stomp.over(socket)
         stompClient.connect({}, () => {
             console.log("Kêt nối thành công")
-            stompClient.subscribe("/topic/public", (res) => {
-                const newMessage = JSON.parse(res.body)
-                setMessageList([...messageList, {
-                    username: newMessage.sender,
-                    content: newMessage.message
-                }])
-            })
-            setStompClientState(stompClient)
+            stompClient.subscribe("/topic/public", recieveMessage)
         })
     }
 
@@ -63,11 +55,20 @@ function ChatPage() {
         connect()
     }, [])
 
-    const send = async () => {
+    const sendMessage = async () => {
         const res = await axios.post("/message/create-message", {
             message: message.content,
             sender: message.username
         })
+    }
+
+    const recieveMessage = (res) => {
+        const resBody = JSON.parse(res.body)
+        const newMessage = {
+            username: resBody.sender,
+            content: resBody.message
+        }
+        dispatch(messageActions.dispatchSendMessage(newMessage))
     }
 
     return (
