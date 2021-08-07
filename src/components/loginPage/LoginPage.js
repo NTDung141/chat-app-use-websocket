@@ -32,8 +32,8 @@ function LoginPage() {
 
         try {
             const res = await axios.post(authApi.login, loginRequest)
-            const username = res.data.user.refName
-            dispatch(authActions.dispatchLogin(username))
+            const user = res.data.user
+            dispatch(authActions.dispatchLogin(user))
             history.push("/chat")
         }
         catch (e) {

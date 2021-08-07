@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "./HeaderComponent.css"
 
 const header = [
     {
@@ -31,7 +32,7 @@ const ShowHeader = () => {
 function HeaderComponent() {
     const isLogged = useSelector(state => state.AuthReducer.isLogged)
 
-    const myUsername = useSelector(state => state.AuthReducer.username)
+    const myUsername = useSelector(state => state.AuthReducer.user.refName)
 
     if (isLogged) {
         return (
@@ -44,7 +45,7 @@ function HeaderComponent() {
                     </div>
 
                     <ul className="navbar-nav justify-content-end">
-                        <li className="nav-item">
+                        <li className="nav-item header__username">
                             Chào {myUsername}
                         </li>
                         <li className="nav-item">

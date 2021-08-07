@@ -1,7 +1,11 @@
 import ACTIONS from "../actions";
 
 const initialState = {
-    username: "",
+    user: {
+        id: "",
+        username: "",
+        refName: ""
+    },
     isLogged: false
 }
 
@@ -9,7 +13,7 @@ const AuthReducer = (state = initialState, action) => {
     switch (action.type) {
         case ACTIONS.LOGIN:
             return {
-                username: action.payload.username,
+                user: action.payload.user,
                 isLogged: true
             }
 

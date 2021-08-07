@@ -1,11 +1,12 @@
 import ChatPage from "../components/chatPage/ChatPage"
+import ChatList from "../components/chatList/ChatList";
 
 function AppView() {
     return (
         <div>
             <div className="row">
                 <div className="col col-md-3">
-                    alo alo alo alo alo
+                    <ChatList />
                 </div>
                 <div className="col col-md-9">
                     <ChatPage />

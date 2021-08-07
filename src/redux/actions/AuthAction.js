@@ -1,10 +1,10 @@
 import ACTIONS from "./index";
 
-export const dispatchLogin = (username) => {
+export const dispatchLogin = (user) => {
     return {
         type: ACTIONS.LOGIN,
         payload: {
-            username: username
+            user: user
         }
     }
 }
