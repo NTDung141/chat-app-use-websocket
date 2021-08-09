@@ -54,7 +54,7 @@ function ChatList() {
                             {chattingUsername}
                         </div>
 
-                        <div> say something... </div>
+                        <div style={{ fontWeight: 300 }}> say something... </div>
                     </div>
                 </div>
             )

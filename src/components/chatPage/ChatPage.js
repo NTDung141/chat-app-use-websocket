@@ -90,6 +90,11 @@ function ChatPage() {
                 messageList={messageList}
                 myUser={myUser} />
 
+            <div className="chat-page__user-info">
+                <div className="chat-page__user-info-avatar">N</div>
+                <div className="chat-page__user-info-name">Nguyen Thanh Dung</div>
+            </div>
+
             <form className="chat-form" onSubmit={handleSubmit}>
                 <input className="chat-form-input" value={message.message} onChange={handleInputChange} />
                 <button type="submit" className="btn btn-primary">Gửi</button>

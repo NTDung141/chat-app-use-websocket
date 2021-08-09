@@ -7,10 +7,10 @@
 
 .chat-form {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    position: fixed;
-    width: 75%;
+    position: absolute;
+    width: 100%;
     background-color: white;
     height: 50px;
     bottom: 7px;
@@ -23,4 +23,35 @@
     border-radius: 10px;
     width: 90%;
     height: 38px;
+    position: relative;
+    top: 2px;
+}
+
+.chat-page__user-info {
+    position: fixed;
+    top: 57px;
+    height: 65px;
+    width: 75%;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.chat-page__user-info-avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    background-color: gray;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 500;
+}
+
+.chat-page__user-info-name {
+    font-size: 20px;
+    font-weight: 500;
 }
