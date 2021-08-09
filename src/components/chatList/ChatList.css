@@ -1,0 +1,41 @@
+.chatbox-list {
+    height: 94vh;
+    overflow-x: hidden;
+}
+
+.chatbox-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px 5px;
+    height: 70px;
+    border-radius: 5px;
+}
+
+.chatbox-item:hover {
+    background-color: lightgrey;
+}
+
+.chatbox-item__avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: gray;
+    border-radius: 100%;
+    height: 58px;
+    width: 58px;
+    margin-left: 3px;
+    margin-right: 10px;
+    font-size: 25px;
+    font-weight: 400;
+    color: white;
+}
+
+.chatbox-item__content {
+    display: block;
+}
+
+.chatbox-item__name {
+    font-size: 18px;
+    font-weight: 400;
+}

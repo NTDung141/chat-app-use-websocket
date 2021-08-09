@@ -10,6 +10,12 @@ const MessageReducer = (state = initialState, action) => {
                 action.payload.message
             ]
 
+        case ACTIONS.FETCH_MESSAGE:
+            state = action.payload.messageList
+            return [
+                ...state
+            ]
+
         default:
             return state
     }

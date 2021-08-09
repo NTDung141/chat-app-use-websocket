@@ -1,13 +1,19 @@
 .chat-message {
-    height: calc(94vh - 75px);
+    position: fixed;
+    display: block;
+    bottom: 57px;
+    top: 57px;
+    width: 75%;
     overflow-x: hidden;
     padding: 15px 15px 15px 15px;
 }
 
 .my-message {
     display: flex;
+    align-items: center;
     width: 100%;
     justify-content: flex-end;
+    margin: 2px 0px;
 }
 
 .my-message-content {
@@ -18,8 +24,10 @@
 
 .friend-message {
     display: flex;
+    align-items: center;
     width: 100%;
     justify-content: flex-start;
+    margin: 2px 0px;
 }
 
 .friend-message-avatar {

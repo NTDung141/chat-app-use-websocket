@@ -1,5 +1,6 @@
 const baseUrl = "/user"
 
 export default {
-    login: `${baseUrl}/login`
+    login: `${baseUrl}/login`,
+    register: `${baseUrl}/register`,
 }

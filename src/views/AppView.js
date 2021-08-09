@@ -4,7 +4,7 @@ import ChatList from "../components/chatList/ChatList";
 function AppView() {
     return (
         <div>
-            <div className="row">
+            <div className="row no-gutters">
                 <div className="col col-md-3">
                     <ChatList />
                 </div>

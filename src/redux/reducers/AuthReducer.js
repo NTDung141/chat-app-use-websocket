@@ -4,7 +4,8 @@ const initialState = {
     user: {
         id: "",
         username: "",
-        refName: ""
+        refName: "",
+        chatBoxList: []
     },
     isLogged: false
 }

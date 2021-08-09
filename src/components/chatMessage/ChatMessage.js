@@ -16,7 +16,10 @@ function ChatMessage(props) {
             }
             else {
                 var avatarName = item.senderName
-                avatarName = avatarName.slice(0, 1)
+                if (avatarName) {
+                    avatarName = avatarName.slice(0, 1)
+                }
+
                 return (
                     <div className="friend-message" key={index}>
                         <div className="friend-message-avatar"> {avatarName} </div>

@@ -8,3 +8,12 @@ export const dispatchSendMessage = (message) => {
         }
     }
 }
+
+export const dispatchFetchMessage = (messageList) => {
+    return {
+        type: ACTIONS.FETCH_MESSAGE,
+        payload: {
+            messageList: messageList
+        }
+    }
+}
