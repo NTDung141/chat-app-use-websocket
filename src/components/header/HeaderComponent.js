@@ -39,21 +39,25 @@ function HeaderComponent() {
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <a className="navbar-brand">Chat App</a>
 
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
                 <div className="container-fluid">
-                    <div className="collapse navbar-collapse" id="navbarNav">
+                    <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+                        <div className="nav-item header__user">
+                            <div className="header__user-avatar">{myUsername.slice(0, 1)}</div>
+                            <div className="header__user-name">{myUsername}</div>
+                        </div>
 
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <NavLink to="/logout" className="nav-link">
+                                    Log out
+                                </NavLink>
+                            </li>
+                        </ul>
                     </div>
-
-                    <ul className="navbar-nav justify-content-end">
-                        <li className="nav-item header__username">
-                            Chào {myUsername}
-                        </li>
-                        <li className="nav-item">
-                            <NavLink to="/logout" className="nav-link">
-                                Log out
-                            </NavLink>
-                        </li>
-                    </ul>
                 </div>
             </nav>
         )
@@ -63,14 +67,16 @@ function HeaderComponent() {
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <a className="navbar-brand">Chat App</a>
 
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
                 <div className="container-fluid">
-                    <div className="collapse navbar-collapse" id="navbarNav">
-
+                    <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+                        <ul className="navbar-nav">
+                            <ShowHeader />
+                        </ul>
                     </div>
-
-                    <ul className="navbar-nav justify-content-end">
-                        <ShowHeader />
-                    </ul>
                 </div>
             </nav>
         )

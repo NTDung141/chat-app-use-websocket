@@ -1,6 +1,17 @@
-.header__username {
+.header__user {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-right: 3px;
+}
+
+.header__user-avatar {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 3px;
+    background-color: #cdcfd4;
+    height: 30px;
+    width: 30px;
+    border-radius: 100%;
+    margin-right: 5px;
 }
