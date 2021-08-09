@@ -84,21 +84,36 @@ function ChatPage() {
         }
     }
 
+    const getChattingUsername = (userId) => {
+        var chattingUsername = ""
+        myUser.contactUserList.forEach(user => {
+            if (user.id === userId) {
+                chattingUsername = user.refName
+            }
+        })
+
+        return chattingUsername
+    }
+
+    const chattingUsername = getChattingUsername(chattingUserId)
+
     return (
         <div className="chat-page">
+            <div className="chat-page__user-info">
+                <div className="chat-page__user-info-avatar">{chattingUsername.slice(0, 1)}</div>
+                <div className="chat-page__user-info-name">{chattingUsername}</div>
+            </div>
+
             <ChatMessage
                 messageList={messageList}
-                myUser={myUser} />
-
-            <div className="chat-page__user-info">
-                <div className="chat-page__user-info-avatar">N</div>
-                <div className="chat-page__user-info-name">Nguyen Thanh Dung</div>
-            </div>
+                myUser={myUser}
+            />
 
             <form className="chat-form" onSubmit={handleSubmit}>
                 <input className="chat-form-input" value={message.message} onChange={handleInputChange} />
                 <button type="submit" className="btn btn-primary">Gửi</button>
             </form>
+
         </div>
     )
 }

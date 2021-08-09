@@ -1,11 +1,12 @@
 .chat-message {
-    position: fixed;
     display: block;
     bottom: 57px;
     top: 122px;
-    width: 75%;
+    width: 100%;
+    height: calc(100vh - 172px);
     overflow-x: hidden;
     padding: 15px 15px 15px 15px;
+    z-index: 100;
 }
 
 .my-message {
@@ -31,7 +32,7 @@
 }
 
 .friend-message-avatar {
-    background-color: grey;
+    background-color: #cdcfd4;
     width: 30px;
     height: 30px;
     border-radius: 100%;

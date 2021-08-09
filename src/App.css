@@ -1,21 +1,28 @@
 .App {
   overflow: hidden;
-  position: relative;
   height: 100vh;
 }
 
 .App__chat-list {
-  height: 100%;
+  position: fixed;
+  height: 100vh;
+  left: 0px;
   width: 360px;
 }
 
 .App__message {
-  height: 100%;
+  position: relative;
+  left: 362px;
+  height: 100vh;
   width: calc(100vw - 360px);
 }
 
 @media only screen and (max-width: 900px) {
   .App__chat-list {
     width: 100px;
+  }
+
+  .App__message {
+    left: 102px;
   }
 }
