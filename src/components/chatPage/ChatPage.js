@@ -1,21 +1,21 @@
 import ChatMessage from "../chatMessage/ChatMessage"
 import "./ChatPage.css"
 import { useEffect, useState } from "react"
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import SockJS from 'sockjs-client'
 import * as Stomp from 'stompjs'
 import axios from "axios";
 import * as messageActions from "../../redux/actions/MessageAction"
 import messageApi from "../../enum/apis/message/message-api";
+import * as realTimeActions from "../../redux/actions/RealTimeAction"
 
 function ChatPage() {
 
-    var stompClient = null
+    let stompClient = null
 
     const myUser = useSelector(state => state.AuthReducer.user)
     const messageList = useSelector(state => state.MessageReducer)
-    const chatBoxId = useSelector(state => state.ChatBoxReducer.chatBoxId)
-    const chattingUserId = useSelector(state => state.ChatBoxReducer.chattingUserId)
+    const chatBox = useSelector(state => state.ChatBoxReducer)
 
     const [message, setMessage] = useState({
         senderId: "",
@@ -40,8 +40,8 @@ function ChatPage() {
             senderId: message.senderId,
             senderName: message.senderName,
             message: message.message,
-            chatBoxId: chatBoxId,
-            receiverId: chattingUserId
+            chatBoxId: chatBox.chatBoxId,
+            receiverId: chatBox.chattingUserId
         }
         dispatch(messageActions.dispatchSendMessage(newMessage))
         sendMessage()
@@ -63,7 +63,6 @@ function ChatPage() {
 
     useEffect(() => {
         connect()
-        console.log(chatBoxId)
     }, [])
 
     const sendMessage = async () => {
@@ -71,16 +70,20 @@ function ChatPage() {
             senderId: message.senderId,
             senderName: message.senderName,
             message: message.message,
-            chatBoxId: chatBoxId,
-            receiverId: chattingUserId
+            chatBoxId: chatBox.chatBoxId,
+            receiverId: chatBox.chattingUserId
         }
         const res = await axios.post(messageApi.createMessage, newMessage)
     }
 
     const recieveMessage = (res) => {
         const resBody = JSON.parse(res.body)
+        const chatBoxId = localStorage.getItem("chatBoxId")
         if (resBody.chatBoxId === chatBoxId) {
             dispatch(messageActions.dispatchSendMessage(resBody))
+        }
+        else {
+            dispatch(realTimeActions.dispatchReceiveMessage(resBody))
         }
     }
 
@@ -95,7 +98,7 @@ function ChatPage() {
         return chattingUsername
     }
 
-    const chattingUsername = getChattingUsername(chattingUserId)
+    const chattingUsername = getChattingUsername(chatBox.chattingUserId)
 
     return (
         <div className="chat-page">
@@ -110,7 +113,7 @@ function ChatPage() {
             />
 
             <form className="chat-form" onSubmit={handleSubmit}>
-                <input className="chat-form-input" value={message.message} onChange={handleInputChange} />
+                <input className="chat-form-input" value={message.message} onChange={handleInputChange} placeholder="Aa" />
                 <button type="submit" className="btn btn-primary">Gửi</button>
             </form>
 

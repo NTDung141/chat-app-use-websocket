@@ -19,7 +19,10 @@
 .chat-form-input {
     display: inline-block;
     outline: none;
+    border: none;
+    background-color: #f0f2f5;
     margin: 7px 7px;
+    padding: 0px 5px;
     border-radius: 10px;
     width: 90%;
     height: 38px;
