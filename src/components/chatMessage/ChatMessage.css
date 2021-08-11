@@ -1,7 +1,7 @@
 .chat-message {
     display: block;
     bottom: 57px;
-    top: 122px;
+    top: 128px;
     width: 100%;
     height: calc(100vh - 172px);
     overflow-x: hidden;
@@ -18,7 +18,9 @@
 }
 
 .my-message-content {
-    background-color: rgb(0, 132, 255);
+    background-color: #0084ff;
+    font-weight: 200;
+    color: white;
     border-radius: 15px 15px 15px 15px;
     padding: 5px 7px 5px 7px;
 }
@@ -53,7 +55,8 @@
 }
 
 .friend-message-content {
-    background-color: rgb(0, 132, 255);
+    background-color: #e4e6eb;
+    font-weight: 200;
     border-radius: 15px 15px 15px 15px;
     padding: 5px 7px 5px 7px;
 }

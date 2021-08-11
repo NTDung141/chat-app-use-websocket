@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-right: 3px;
+    margin-right: 10px;
 }
 
 .header__user-avatar {
@@ -14,4 +14,19 @@
     width: 30px;
     border-radius: 100%;
     margin-right: 5px;
+}
+
+.logout {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-right: 3px;
+}
+
+.logout-btn {
+    background-color: white;
+    border-color: black;
+    color: black;
+    border-radius: 5px;
+    height: 35px;
 }

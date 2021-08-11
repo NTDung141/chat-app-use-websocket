@@ -114,7 +114,7 @@ function ChatPage() {
 
             <form className="chat-form" onSubmit={handleSubmit}>
                 <input className="chat-form-input" value={message.message} onChange={handleInputChange} placeholder="Aa" />
-                <button type="submit" className="btn btn-primary">Gửi</button>
+                {/* <button type="submit" className="btn btn-primary">Gửi</button> */}
             </form>
 
         </div>

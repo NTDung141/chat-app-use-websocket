@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./HeaderComponent.css"
+import LogoutPage from "../logoutPage/LogoutPage";
 
 const header = [
     {
@@ -37,7 +38,7 @@ function HeaderComponent() {
     if (isLogged) {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <a className="navbar-brand">Chat App</a>
+                {/* <a className="navbar-brand">Chat App</a> */}
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -50,13 +51,9 @@ function HeaderComponent() {
                             <div className="header__user-name">{myUsername}</div>
                         </div>
 
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <NavLink to="/logout" className="nav-link">
-                                    Log out
-                                </NavLink>
-                            </li>
-                        </ul>
+                        <div className="nav-item logout">
+                            <LogoutPage />
+                        </div>
                     </div>
                 </div>
             </nav>

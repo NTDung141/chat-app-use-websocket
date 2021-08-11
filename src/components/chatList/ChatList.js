@@ -5,6 +5,7 @@ import * as messageAction from "../../redux/actions/MessageAction"
 import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
 import * as realTimeAction from "../../redux/actions/RealTimeAction"
 import { useEffect } from "react"
+import ChatListControl from "../chatListControl/ChatListControl"
 
 function ChatList() {
     const myUser = useSelector(state => state.AuthReducer.user)
@@ -99,6 +100,10 @@ function ChatList() {
 
     return (
         <div className="chatbox-list">
+            <ChatListControl />
+
+            <hr />
+
             {showChatBoxList()}
         </div>
     )
