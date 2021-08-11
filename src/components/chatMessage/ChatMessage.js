@@ -1,9 +1,12 @@
 import "./ChatMessage.css"
 import { useEffect, useState } from "react"
+import { useRef } from "react";
 
 function ChatMessage(props) {
     const messageList = props.messageList;
     const myUser = props.myUser;
+
+    const lastMessageElement = useRef(null)
 
     const showMessageList = () => {
         const messageListLength = messageList.length
@@ -47,8 +50,17 @@ function ChatMessage(props) {
         showMessageList()
     }, [messageList])
 
+    useEffect(() => {
+        if (lastMessageElement) {
+            lastMessageElement.current.addEventListener('DOMNodeInserted', event => {
+                const { currentTarget: target } = event
+                target.scroll({ top: target.scrollHeight, behavior: 'smooth' })
+            })
+        }
+    }, [])
+
     return (
-        <div className="chat-message">
+        <div className="chat-message" ref={lastMessageElement}>
             {showMessageList()}
         </div>
     )

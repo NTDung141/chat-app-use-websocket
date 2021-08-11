@@ -50,7 +50,6 @@ function ChatList() {
     }
 
     useEffect(() => {
-        // showChatBoxList()
         if (receivedMessage.chatBoxId === chatBoxId) {
             dispatch(realTimeAction.dispatchReceiveMessage({}))
         }
