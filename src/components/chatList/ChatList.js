@@ -4,12 +4,12 @@ import axios from "axios"
 import * as messageAction from "../../redux/actions/MessageAction"
 import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
 import * as realTimeAction from "../../redux/actions/RealTimeAction"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import ChatListControl from "../chatListControl/ChatListControl"
 
 function ChatList() {
     const myUser = useSelector(state => state.AuthReducer.user)
-    const chatBoxList = myUser.chatBoxList
+    const [chatBoxList, setChatBoxList] = useState(myUser.chatBoxList)
     const contactUserList = myUser.contactUserList
     const receivedMessage = useSelector(state => state.RealTimeReducer.receivedMessage)
     const chatBoxId = useSelector(state => state.ChatBoxReducer.chatBoxId)
@@ -49,6 +49,21 @@ function ChatList() {
 
         return chattingUsername
     }
+
+    useEffect(async () => {
+        const chattingUserId = getChattingUserId(chatBoxList[0].userIdList)
+        const chatBoxId = chatBoxList[0].id
+        dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUserId))
+        localStorage.setItem("chatBoxId", chatBoxId)
+
+        const res = await axios.get(`/message/${chatBoxId}`)
+
+        dispatch(messageAction.dispatchFetchMessage(res.data))
+
+        if (receivedMessage.chatBoxId === chatBoxId) {
+            dispatch(realTimeAction.dispatchReceiveMessage({}))
+        }
+    }, [])
 
     useEffect(() => {
         if (receivedMessage.chatBoxId === chatBoxId) {
