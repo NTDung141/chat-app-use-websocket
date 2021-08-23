@@ -16,12 +16,13 @@ function ChatList() {
     const dispatch = useDispatch()
 
     const handleClick = async (chatBoxId, chattingUserId) => {
-        dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUserId))
-        localStorage.setItem(`${myUser.id}`, chatBoxId)
+        const chattingUser = myUser.contactUserList.find(contact => contact.id === chattingUserId)
 
         const res = await axios.get(`/message/${chatBoxId}`)
-
         dispatch(messageAction.dispatchFetchMessage(res.data))
+
+        dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUser))
+        localStorage.setItem(`${myUser.id}`, chatBoxId)
 
         if (receivedMessage.chatBoxId === chatBoxId) {
             dispatch(realTimeAction.dispatchReceiveMessage({}))
@@ -51,17 +52,15 @@ function ChatList() {
 
     useEffect(async () => {
         const chattingUserId = getChattingUserId(chatBoxList[0].userIdList)
+        const chattingUser = myUser.contactUserList.find(contact => contact.id === chattingUserId)
+
         const chatBoxId = chatBoxList[0].id
-        dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUserId))
-        localStorage.setItem(`${myUser.id}`, chatBoxId)
 
         const res = await axios.get(`/message/${chatBoxId}`)
-
         dispatch(messageAction.dispatchFetchMessage(res.data))
 
-        if (receivedMessage.chatBoxId === chatBoxId) {
-            dispatch(realTimeAction.dispatchReceiveMessage({}))
-        }
+        dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUser))
+        localStorage.setItem(`${myUser.id}`, chatBoxId)
     }, [])
 
     useEffect(() => {

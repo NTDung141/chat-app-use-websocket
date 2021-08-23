@@ -2,7 +2,7 @@ import ACTIONS from "../actions";
 
 const initialState = {
     chatBoxId: "",
-    chattingUserId: ""
+    chattingUser: ""
 }
 
 const ChatBoxReducer = (state = initialState, action) => {
@@ -10,7 +10,7 @@ const ChatBoxReducer = (state = initialState, action) => {
         case ACTIONS.CHANGE_CHAT_BOX:
             return {
                 chatBoxId: action.payload.chatBoxId,
-                chattingUserId: action.payload.chattingUserId
+                chattingUser: action.payload.chattingUser
             }
 
         default:

@@ -42,7 +42,7 @@ function ChatPage() {
                 senderName: message.senderName,
                 message: message.message,
                 chatBoxId: chatBox.chatBoxId,
-                receiverId: chatBox.chattingUserId
+                receiverId: chatBox.chattingUser.id
             }
             dispatch(messageActions.dispatchSendMessage(newMessage))
             sendMessage()
@@ -73,7 +73,7 @@ function ChatPage() {
             senderName: message.senderName,
             message: message.message,
             chatBoxId: chatBox.chatBoxId,
-            receiverId: chatBox.chattingUserId
+            receiverId: chatBox.chattingUser.id
         }
         const res = await axios.post(messageApi.createMessage, newMessage)
     }
@@ -91,16 +91,23 @@ function ChatPage() {
 
     const getChattingUsername = (userId) => {
         var chattingUsername = ""
-        myUser.contactUserList.forEach(user => {
-            if (user.id === userId) {
-                chattingUsername = user.firstName + " " + user.lastName
-            }
-        })
+
+        if (chatBox.chatBoxId !== "new-chat-box") {
+            myUser.contactUserList.forEach(user => {
+                if (user.id === userId) {
+                    chattingUsername = user.firstName + " " + user.lastName
+                }
+            })
+        }
+        else {
+            chattingUsername = chatBox.chattingUser.firstName + " " + chatBox.chattingUser.lastName
+        }
 
         return chattingUsername
     }
 
-    const chattingUsername = getChattingUsername(chatBox.chattingUserId)
+    const chattingUsername = getChattingUsername(chatBox.chattingUser.id)
+
 
     return (
         <div className="chat-page">

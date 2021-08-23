@@ -8,7 +8,6 @@ import axios from "axios"
 function SearchNewContact() {
 
     const myUser = useSelector(state => state.AuthReducer.user)
-    const contactList = myUser.contactUserList
 
     const [allUserList, setAllUserList] = useState([])
     const [searchList, setSearchList] = useState(allUserList)
@@ -20,10 +19,16 @@ function SearchNewContact() {
         const res = await axios.get("/user/all-user")
 
         if (res) {
-            setAllUserList(res.data)
-            setSearchList(res.data)
+            const userList = res.data.filter(contact => contact.id !== myUser.id)
+            setAllUserList(userList)
+            setSearchList(userList)
         }
     }, [])
+
+    const removeSearchValue = () => {
+        setSearchValue("")
+        setSearchList(allUserList)
+    }
 
     const handleInputChange = (event) => {
         const { value } = event.target
@@ -60,12 +65,29 @@ function SearchNewContact() {
     const moveToChatBox = async (contactId) => {
         const chatBox = getChatBoxId(contactId)
 
-        dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBox.id, contactId))
-        localStorage.setItem(`${myUser.id}`, chatBox.id)
+        if (chatBox) {
+            const chattingUser = myUser.contactUserList.find(contact => contact.id === contactId)
 
-        const res = await axios.get(`/message/${chatBox.id}`)
+            dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBox.id, chattingUser))
+            localStorage.setItem(`${myUser.id}`, chatBox.id)
 
-        dispatch(messageAction.dispatchFetchMessage(res.data))
+            const res = await axios.get(`/message/${chatBox.id}`)
+
+            dispatch(messageAction.dispatchFetchMessage(res.data))
+
+            removeSearchValue()
+        }
+        else {
+            const chattingUser = allUserList.find(contact => contact.id === contactId)
+
+            dispatch(chatBoxAction.dispatchChangeChatBoxId("new-chat-box", chattingUser))
+            localStorage.setItem(`${myUser.id}`, "new-chat-box")
+
+            dispatch(messageAction.dispatchFetchMessage([]))
+
+            removeSearchValue()
+        }
+
     }
 
     const showSearchList = () => {
@@ -91,7 +113,7 @@ function SearchNewContact() {
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLongTitle">Search new contact</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick={removeSearchValue}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -100,10 +122,12 @@ function SearchNewContact() {
                                 <input className="header__search" placeholder="Search new contact" name="searchValue" value={searchValue} onChange={handleInputChange} />
                             </div>
 
-                            {showSearchList()}
+                            <div className="search-new-contact__search-list">
+                                {showSearchList()}
+                            </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick={removeSearchValue}>Close</button>
                         </div>
                     </div>
                 </div>

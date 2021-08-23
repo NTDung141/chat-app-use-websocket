@@ -15,6 +15,11 @@ function SearchContact() {
 
     const dispatch = useDispatch()
 
+    const removeSearchValue = () => {
+        setSearchValue("")
+        setContactList(initialContactList)
+    }
+
     const handleInputChange = (event) => {
         const { value } = event.target
         setSearchValue(value)
@@ -49,13 +54,16 @@ function SearchContact() {
 
     const moveToChatBox = async (contactId) => {
         const chatBox = getChatBoxId(contactId)
+        const chattingUser = myUser.contactUserList.find(contact => contact.id === contactId)
 
-        dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBox.id, contactId))
+        dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBox.id, chattingUser))
         localStorage.setItem(`${myUser.id}`, chatBox.id)
 
         const res = await axios.get(`/message/${chatBox.id}`)
 
         dispatch(messageAction.dispatchFetchMessage(res.data))
+
+        removeSearchValue()
     }
 
     const showContactList = () => {
@@ -81,7 +89,7 @@ function SearchContact() {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title">Search on your chat</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={removeSearchValue}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -93,7 +101,7 @@ function SearchContact() {
                         </div>
 
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={removeSearchValue}>Close</button>
                         </div>
                     </div>
                 </div>
