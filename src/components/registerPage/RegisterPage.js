@@ -2,12 +2,14 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import authApi from "../../enum/apis/auth/auth-api";
+import "./RegisterPage.css"
 
 function RegisterPage() {
 
     const [user, setUser] = useState({
         username: "",
-        refname: "",
+        firstName: "",
+        lastName: "",
         password: ""
     })
 
@@ -23,41 +25,51 @@ function RegisterPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        var registerRequest = {
-            username: user.username,
-            refName: user.refName,
-            password: user.password,
-            chatBoxIdList: []
-        }
-
-        try {
-            const res = await axios.post(authApi.register, registerRequest)
-            if (res.data) {
-                history.push("/login")
+        if (user.username !== "" && user.firstName !== "" && user.lastName !== "" && user.password !== "") {
+            var registerRequest = {
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                password: user.password,
+                chatBoxIdList: [],
+                contactUserIdList: []
             }
-        }
-        catch (e) {
-            console.log(e)
+
+            try {
+                const res = await axios.post(authApi.register, registerRequest)
+                if (res.data) {
+                    history.push("/login")
+                }
+            }
+            catch (e) {
+                console.log(e)
+            }
         }
     }
 
 
     return (
         <div>
-            <form onSubmit={handleSubmit} style={{ width: 500, margin: "auto", paddingTop: 50 }}>
-                <div className="mb-3">
-                    <label className="form-label">Username</label>
-                    <input className="form-control" name="username" value={user.username} onChange={handleInputChange} />
+            <form onSubmit={handleSubmit} className="register-modal">
+                <div className="register-modal__title">Register</div>
+
+                <div className="mb-4">
+                    <input className="form-control" name="username" value={user.username} onChange={handleInputChange} placeholder="User name" />
                 </div>
-                <div className="mb-3">
-                    <label className="form-label">Refer Name</label>
-                    <input className="form-control" name="refName" value={user.refName} onChange={handleInputChange} />
+
+                <div className="mb-4">
+                    <input className="form-control" name="firstName" value={user.firstName} onChange={handleInputChange} placeholder="First Name" />
                 </div>
-                <div className="mb-3">
-                    <label className="form-label">Password</label>
-                    <input type="password" className="form-control" name="password" value={user.password} onChange={handleInputChange} />
+
+                <div className="mb-4">
+                    <input className="form-control" name="lastName" value={user.lastName} onChange={handleInputChange} placeholder="Last Name" />
                 </div>
-                <button type="submit" className="btn btn-primary">Register</button>
+
+                <div className="mb-4">
+                    <input type="password" className="form-control" name="password" value={user.password} onChange={handleInputChange} placeholder="Password" />
+                </div>
+
+                <button type="submit" className="register-modal__btn">Register</button>
             </form>
         </div>
     )

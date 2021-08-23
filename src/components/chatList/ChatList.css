@@ -1,5 +1,5 @@
 .chatbox-list {
-    height: 94vh;
+    height: calc(100vh - 206px);
     overflow-x: hidden;
 }
 

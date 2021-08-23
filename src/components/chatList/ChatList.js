@@ -5,7 +5,6 @@ import * as messageAction from "../../redux/actions/MessageAction"
 import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
 import * as realTimeAction from "../../redux/actions/RealTimeAction"
 import { useEffect, useState } from "react"
-import ChatListControl from "../chatListControl/ChatListControl"
 
 function ChatList() {
     const myUser = useSelector(state => state.AuthReducer.user)
@@ -18,7 +17,7 @@ function ChatList() {
 
     const handleClick = async (chatBoxId, chattingUserId) => {
         dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUserId))
-        localStorage.setItem("chatBoxId", chatBoxId)
+        localStorage.setItem(`${myUser.id}`, chatBoxId)
 
         const res = await axios.get(`/message/${chatBoxId}`)
 
@@ -43,7 +42,7 @@ function ChatList() {
         var chattingUsername = ""
         contactUserList.forEach(user => {
             if (user.id === userId) {
-                chattingUsername = user.refName
+                chattingUsername = user.firstName + " " + user.lastName
             }
         })
 
@@ -54,7 +53,7 @@ function ChatList() {
         const chattingUserId = getChattingUserId(chatBoxList[0].userIdList)
         const chatBoxId = chatBoxList[0].id
         dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUserId))
-        localStorage.setItem("chatBoxId", chatBoxId)
+        localStorage.setItem(`${myUser.id}`, chatBoxId)
 
         const res = await axios.get(`/message/${chatBoxId}`)
 
@@ -74,7 +73,7 @@ function ChatList() {
     const lastMessage = (itemId) => {
         if (itemId === receivedMessage.chatBoxId && itemId !== chatBoxId) {
             return (
-                <div className="chatbox-item__new-message"> New message</div>
+                <div className="chatbox-item__new-message"> {`${receivedMessage.senderName}: ${receivedMessage.message}`} </div>
             )
         }
         else {
@@ -115,10 +114,6 @@ function ChatList() {
 
     return (
         <div className="chatbox-list">
-            <ChatListControl />
-
-            <hr />
-
             {showChatBoxList()}
         </div>
     )

@@ -1,0 +1,28 @@
+.register-modal {
+    height: 400px;
+    width: 500px;
+    margin: auto;
+    margin-top: 100px;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.register-modal__title {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-size: 35px;
+    font-weight: 300;
+    margin-bottom: 30px;
+}
+
+.register-modal__btn {
+    background-color: #007bff;
+    height: 35px;
+    width: 100%;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 18px;
+    border: none;
+}

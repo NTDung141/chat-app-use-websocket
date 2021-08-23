@@ -13,7 +13,6 @@ function LogoutPage() {
 
     return (
         <div>
-
             <button type="button" className="logout-btn" data-toggle="modal" data-target="#exampleModal">
                 Log out
             </button>
@@ -23,16 +22,21 @@ function LogoutPage() {
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
+                            <h5 class="modal-title">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>
+                                Warning
+                            </h5>
+
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div className="modal-body">
-                            Bạn có chắc chắn muốn đăng xuất
+                            Are you sure you want to log out?
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                            <button type="button" className="btn btn-primary" onClick={logout} data-dismiss="modal">Đăng xuất</button>
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary" onClick={logout} data-dismiss="modal">Log out</button>
                         </div>
                     </div>
                 </div>

@@ -1,19 +1,15 @@
 import ChatPage from "../components/chatPage/ChatPage"
 import ChatList from "../components/chatList/ChatList";
+import ChatListControl from "../components/chatListControl/ChatListControl";
 
 function AppView() {
     return (
-        <div>
-            {/* <div className="row no-gutters">
-                <div className="col col-md-3">
-                    <ChatList />
-                </div>
-                <div className="col col-md-9">
-                    <ChatPage />
-                </div>
-            </div> */}
-
+        <div className="App__App-view">
             <div className="App__chat-list">
+                <ChatListControl />
+
+                <hr />
+
                 <ChatList />
             </div>
 

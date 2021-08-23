@@ -1,0 +1,13 @@
+.search-new-contact {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.search-new-contact__search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+}

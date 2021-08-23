@@ -29,27 +29,29 @@ function ChatPage() {
         const { value } = e.target
         setMessage({
             senderId: myUser.id,
-            senderName: myUser.refName,
+            senderName: myUser.firstName + " " + myUser.lastName,
             message: value,
         })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        const newMessage = {
-            senderId: message.senderId,
-            senderName: message.senderName,
-            message: message.message,
-            chatBoxId: chatBox.chatBoxId,
-            receiverId: chatBox.chattingUserId
+        if (message.message !== "") {
+            const newMessage = {
+                senderId: message.senderId,
+                senderName: message.senderName,
+                message: message.message,
+                chatBoxId: chatBox.chatBoxId,
+                receiverId: chatBox.chattingUserId
+            }
+            dispatch(messageActions.dispatchSendMessage(newMessage))
+            sendMessage()
+            setMessage({
+                senderId: "",
+                senderName: "",
+                message: "",
+            })
         }
-        dispatch(messageActions.dispatchSendMessage(newMessage))
-        sendMessage()
-        setMessage({
-            senderId: "",
-            senderName: "",
-            message: "",
-        })
     }
 
     const connect = () => {
@@ -78,7 +80,7 @@ function ChatPage() {
 
     const recieveMessage = (res) => {
         const resBody = JSON.parse(res.body)
-        const chatBoxId = localStorage.getItem("chatBoxId")
+        const chatBoxId = localStorage.getItem(`${myUser.id}`)
         if (resBody.chatBoxId === chatBoxId) {
             dispatch(messageActions.dispatchSendMessage(resBody))
         }
@@ -91,7 +93,7 @@ function ChatPage() {
         var chattingUsername = ""
         myUser.contactUserList.forEach(user => {
             if (user.id === userId) {
-                chattingUsername = user.refName
+                chattingUsername = user.firstName + " " + user.lastName
             }
         })
 
@@ -114,7 +116,7 @@ function ChatPage() {
 
             <form className="chat-form" onSubmit={handleSubmit}>
                 <input className="chat-form-input" value={message.message} onChange={handleInputChange} placeholder="Aa" />
-                {/* <button type="submit" className="btn btn-primary">Gửi</button> */}
+                <button type="submit" className="btn btn-primary">Gửi</button>
             </form>
 
         </div>

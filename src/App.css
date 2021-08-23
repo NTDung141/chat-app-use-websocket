@@ -1,22 +1,25 @@
 .App {
   overflow: hidden;
-  height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
   letter-spacing: 0.5px;
 }
 
+.App__App-view {
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+}
+
 .App__chat-list {
-  position: fixed;
-  height: 100vh;
-  left: 0px;
+  display: inline-block;
+  height: 100%;
   width: 360px;
 }
 
 .App__message {
-  position: relative;
-  left: 362px;
-  height: 100vh;
-  width: calc(100vw - 360px);
+  display: inline-block;
+  height: 100%;
+  width: calc(100vw - 362px);
 }
 
 @media only screen and (max-width: 900px) {
@@ -25,6 +28,6 @@
   }
 
   .App__message {
-    left: 102px;
+    width: calc(100vw - 100px);
   }
 }

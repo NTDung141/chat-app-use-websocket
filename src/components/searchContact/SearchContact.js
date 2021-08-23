@@ -1,0 +1,105 @@
+import "../chatListControl/ChatListControl.css"
+import "./SearchContact.css"
+import { useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
+import * as messageAction from "../../redux/actions/MessageAction"
+import axios from "axios"
+
+function SearchContact() {
+    const myUser = useSelector(state => state.AuthReducer.user)
+    const initialContactList = myUser.contactUserList
+
+    const [contactList, setContactList] = useState(initialContactList)
+    const [searchValue, setSearchValue] = useState("")
+
+    const dispatch = useDispatch()
+
+    const handleInputChange = (event) => {
+        const { value } = event.target
+        setSearchValue(value)
+
+        const searchResult = initialContactList.filter(contact => {
+            const contactName = contact.firstName + " " + contact.lastName
+            let index = contactName.toLowerCase().indexOf(value.toLowerCase())
+            if (index > -1) {
+                return contact
+            }
+        })
+
+        if (value !== "") {
+            setContactList(searchResult)
+        }
+        else {
+            setContactList(initialContactList)
+        }
+    }
+
+    const getChatBoxId = (contactId) => {
+        const result = myUser.chatBoxList.filter(chatBox => {
+            const foundId = chatBox.userIdList.find(id => id === contactId)
+
+            if (foundId) {
+                return chatBox
+            }
+        })
+
+        return result[0]
+    }
+
+    const moveToChatBox = async (contactId) => {
+        const chatBox = getChatBoxId(contactId)
+
+        dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBox.id, contactId))
+        localStorage.setItem(`${myUser.id}`, chatBox.id)
+
+        const res = await axios.get(`/message/${chatBox.id}`)
+
+        dispatch(messageAction.dispatchFetchMessage(res.data))
+    }
+
+    const showContactList = () => {
+        const result = contactList.map(contact => {
+            const contactName = contact.firstName + " " + contact.lastName
+            return (
+                <div className="contact-item" onClick={() => moveToChatBox(contact.id)} data-dismiss="modal">
+                    <div className="contact-item__avatar">{contactName.slice(0, 1)}</div>
+                    <div className="contact-item__name">{contactName}</div>
+                </div>
+            )
+        })
+
+        return result
+    }
+
+    return (
+        <div style={{ width: "100%" }}>
+            <div className="chat-list-control__search" data-toggle="modal" data-target="#searchModal">Search on your chat</div>
+
+            <div className="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">Search on your chat</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div className="modal-body">
+                            <input className="chat-list-control__search mb-3" name="searchValue" value={searchValue} placeholder="Search on your chat" onChange={handleInputChange} />
+
+                            {showContactList()}
+                        </div>
+
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default SearchContact

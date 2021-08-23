@@ -2,6 +2,9 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./HeaderComponent.css"
 import LogoutPage from "../logoutPage/LogoutPage";
+import logo from "../../image/chat-logo.png"
+import UserInfo from "../userInfo/UserInfo";
+import SearchNewContact from "../searchNewContact/SearchNewContact";
 
 const header = [
     {
@@ -33,23 +36,36 @@ const ShowHeader = () => {
 function HeaderComponent() {
     const isLogged = useSelector(state => state.AuthReducer.isLogged)
 
-    const myUsername = useSelector(state => state.AuthReducer.user.refName)
+    const firstname = useSelector(state => state.AuthReducer.user.firstName)
+    const lastname = useSelector(state => state.AuthReducer.user.lastName)
+    const myUsername = firstname + " " + lastname
 
     if (isLogged) {
         return (
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                {/* <a className="navbar-brand">Chat App</a> */}
+            <nav className="navbar navbar-expand-lg navbar-light header">
+                <div className="header__brand">
+                    <div
+                        className="header__logo"
+                        style={{ backgroundImage: `url(${logo})` }}
+                    ></div>
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <form className="header__form">
+                        <div className="header__icon">
+                            <i className="far fa-search"></i>
+                        </div>
+
+                        <SearchNewContact />
+                    </form>
+                </div>
 
                 <div className="container-fluid">
                     <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-                        <div className="nav-item header__user">
+                        {/* <div className="nav-item header__user">
                             <div className="header__user-avatar">{myUsername.slice(0, 1)}</div>
                             <div className="header__user-name">{myUsername}</div>
-                        </div>
+                        </div> */}
+
+                        <UserInfo myUsername={myUsername} />
 
                         <div className="nav-item logout">
                             <LogoutPage />
@@ -61,12 +77,13 @@ function HeaderComponent() {
     }
     else {
         return (
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <a className="navbar-brand">Chat App</a>
-
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <nav className="navbar navbar-expand-lg navbar-light header">
+                <div className="header__brand">
+                    <div
+                        className="header__logo"
+                        style={{ backgroundImage: `url(${logo})` }}
+                    ></div>
+                </div>
 
                 <div className="container-fluid">
                     <div className="collapse navbar-collapse justify-content-end" id="navbarNav">

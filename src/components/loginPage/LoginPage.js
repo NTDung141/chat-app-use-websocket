@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import authApi from "../../enum/apis/auth/auth-api";
 import * as authActions from "../../redux/actions/AuthAction"
 import { useHistory } from "react-router-dom";
+import "./LoginPage.css"
 
 function LoginPage() {
 
@@ -43,16 +44,16 @@ function LoginPage() {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} style={{ width: 500, margin: "auto", paddingTop: 50 }}>
-                <div className="mb-3">
-                    <label className="form-label">Username</label>
-                    <input className="form-control" name="username" value={user.username} onChange={handleInputChange} />
+            <form onSubmit={handleSubmit} className="login-modal">
+                <div className="login-modal__title">Log In</div>
+
+                <div className="mb-4">
+                    <input className="form-control" name="username" value={user.username} onChange={handleInputChange} placeholder="Username" />
                 </div>
-                <div className="mb-3">
-                    <label className="form-label">Password</label>
-                    <input type="password" className="form-control" name="password" value={user.password} onChange={handleInputChange} />
+                <div className="mb-4">
+                    <input type="password" className="form-control" name="password" value={user.password} onChange={handleInputChange} placeholder="Password" />
                 </div>
-                <button type="submit" className="btn btn-primary">Login</button>
+                <button type="submit" className="login-modal__btn">Login</button>
             </form>
         </div>
     )

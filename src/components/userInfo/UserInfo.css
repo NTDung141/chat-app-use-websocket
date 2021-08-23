@@ -1,0 +1,10 @@
+.user-info {
+    display: block;
+    padding: 0px 10px;
+}
+
+.user-info__label {
+    font-size: 15px;
+    width: 100%;
+    margin-bottom: 2px;
+}
