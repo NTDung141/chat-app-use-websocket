@@ -51,16 +51,24 @@ function ChatList() {
     }
 
     useEffect(async () => {
-        const chattingUserId = getChattingUserId(chatBoxList[0].userIdList)
-        const chattingUser = myUser.contactUserList.find(contact => contact.id === chattingUserId)
+        if (chatBoxList.length === 0) {
+            dispatch(messageAction.dispatchFetchMessage([]))
 
-        const chatBoxId = chatBoxList[0].id
+            dispatch(chatBoxAction.dispatchChangeChatBoxId("no-chat-box", "no-chatting-user"))
+            localStorage.setItem(`${myUser.id}`, "no-chat-box")
+        }
+        else {
+            const chattingUserId = getChattingUserId(chatBoxList[0].userIdList)
+            const chattingUser = myUser.contactUserList.find(contact => contact.id === chattingUserId)
 
-        const res = await axios.get(`/message/${chatBoxId}`)
-        dispatch(messageAction.dispatchFetchMessage(res.data))
+            const chatBoxId = chatBoxList[0].id
 
-        dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUser))
-        localStorage.setItem(`${myUser.id}`, chatBoxId)
+            const res = await axios.get(`/message/${chatBoxId}`)
+            dispatch(messageAction.dispatchFetchMessage(res.data))
+
+            dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUser))
+            localStorage.setItem(`${myUser.id}`, chatBoxId)
+        }
     }, [])
 
     useEffect(() => {

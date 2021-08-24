@@ -108,22 +108,32 @@ function ChatPage() {
 
     const chattingUsername = getChattingUsername(chatBox.chattingUser.id)
 
-
     return (
         <div className="chat-page">
             <div className="chat-page__user-info">
-                <div className="chat-page__user-info-avatar">{chattingUsername.slice(0, 1)}</div>
+                {chatBox.chatBoxId !== "no-chat-box" &&
+                    <div className="chat-page__user-info-avatar">{chattingUsername.slice(0, 1)}</div>
+                }
+
                 <div className="chat-page__user-info-name">{chattingUsername}</div>
+
             </div>
 
             <ChatMessage
                 messageList={messageList}
                 myUser={myUser}
+                chatBox={chatBox}
             />
 
             <form className="chat-form" onSubmit={handleSubmit}>
-                <input className="chat-form-input" value={message.message} onChange={handleInputChange} placeholder="Aa" />
-                <button type="submit" className="btn btn-primary">Gửi</button>
+                <input
+                    className="chat-form-input"
+                    value={message.message}
+                    onChange={handleInputChange}
+                    placeholder="Aa"
+                    disabled={chatBox.chatBoxId === "new-chat-box"}
+                />
+                {/* <button type="submit" className="btn btn-primary">Gửi</button> */}
             </form>
 
         </div>

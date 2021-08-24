@@ -6,7 +6,7 @@ function ChatListControl() {
         <div className="chat-list-control">
             <div className="chat-list-control__header">
                 <h3> Chat </h3>
-                <i class="fas fa-plus"></i>
+                <i className="far fa-users-medical fa-2x"></i>
             </div>
 
             <form className="chat-list-control__form">

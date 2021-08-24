@@ -1,5 +1,6 @@
 import "../chatListControl/ChatListControl.css"
 import "./SearchContact.css"
+import "../searchNewContact/SearchNewContact.css"
 import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
@@ -97,7 +98,9 @@ function SearchContact() {
                         <div className="modal-body">
                             <input className="chat-list-control__search mb-3" name="searchValue" value={searchValue} placeholder="Search on your chat" onChange={handleInputChange} />
 
-                            {showContactList()}
+                            <div className="search-new-contact__search-list">
+                                {showContactList()}
+                            </div>
                         </div>
 
                         <div className="modal-footer">

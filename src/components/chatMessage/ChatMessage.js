@@ -1,12 +1,33 @@
 import "./ChatMessage.css"
-import { useEffect, useState } from "react"
-import { useRef } from "react";
+import { useEffect, useRef } from "react"
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import * as authActions from "../../redux/actions/AuthAction"
+import * as messageAction from "../../redux/actions/MessageAction"
+import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
 
-function ChatMessage(props) {
-    const messageList = props.messageList;
-    const myUser = props.myUser;
+function ChatMessage() {
+
+    const myUser = useSelector(state => state.AuthReducer.user)
+    const messageList = useSelector(state => state.MessageReducer)
+    const chatBox = useSelector(state => state.ChatBoxReducer)
 
     const lastMessageElement = useRef(null)
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        showMessageList()
+    }, [messageList])
+
+    useEffect(() => {
+        if (lastMessageElement) {
+            lastMessageElement.current.addEventListener('DOMNodeInserted', event => {
+                const { currentTarget: target } = event
+                target.scroll({ top: target.scrollHeight, behavior: 'smooth' })
+            })
+        }
+    }, [])
 
     const showMessageList = () => {
         const messageListLength = messageList.length
@@ -46,21 +67,74 @@ function ChatMessage(props) {
         return result
     }
 
-    useEffect(() => {
-        showMessageList()
-    }, [messageList])
+    const welcomeNewContact = () => {
+        return (
+            <div className="welcome-new-contact">
+                <div className="welcome__title mt-4">
+                    Click button to start chatting with
+                </div>
 
-    useEffect(() => {
-        if (lastMessageElement) {
-            lastMessageElement.current.addEventListener('DOMNodeInserted', event => {
-                const { currentTarget: target } = event
-                target.scroll({ top: target.scrollHeight, behavior: 'smooth' })
-            })
+                <div className="welcome__title mb-3">
+                    {`${chatBox.chattingUser.firstName + " " + chatBox.chattingUser.lastName}`}
+                </div>
+
+                <div className="welcome__chat-active">
+                    <button className="btn btn-primary" onClick={createNewChatRoom}>Start</button>
+                </div>
+            </div>
+        )
+    }
+
+    const createNewChatRoom = async () => {
+        const newChatBox = {
+            userIdList: [myUser.id, chatBox.chattingUser.id]
         }
-    }, [])
+
+        const res = await axios.post("/chatbox/create-chat-box", newChatBox)
+        if (res) {
+            let chatBoxList = myUser.chatBoxList
+            chatBoxList.push(res.data)
+
+            let contactUserList = myUser.contactUserList
+            contactUserList.push(chatBox.chattingUser)
+
+            dispatch(authActions.dispatchAddNewChatBoxAndContact(chatBoxList, contactUserList))
+
+            dispatch(messageAction.dispatchFetchMessage([]))
+
+            dispatch(chatBoxAction.dispatchChangeChatBoxId(res.data.id, chatBox.chattingUser))
+            localStorage.setItem(`${myUser.id}`, res.data.id)
+        }
+    }
+
+    const saySomething = () => {
+        return (
+            <div className="welcome-new-contact">
+                <div className="welcome__title mt-4">
+                    {`Say something to ${chatBox.chattingUser.firstName + " " + chatBox.chattingUser.lastName}`}
+                </div>
+            </div>
+        )
+    }
+
+    const welcomeNewUser = () => {
+        return (
+            <div className="welcome-new-contact">
+                <div className="welcome__title mt-4">
+                    Welcome to Chat App
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="chat-message" ref={lastMessageElement}>
+            {chatBox.chatBoxId === "new-chat-box" && welcomeNewContact()}
+
+            {(messageList.length === 0 && chatBox.chatBoxId !== "no-chat-box" && chatBox.chatBoxId !== "new-chat-box") && saySomething()}
+
+            {(chatBox.chatBoxId === "no-chat-box") && welcomeNewUser()}
+
             {showMessageList()}
         </div>
     )

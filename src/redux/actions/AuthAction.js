@@ -14,3 +14,13 @@ export const dispatchLogout = () => {
         type: ACTIONS.LOGOUT
     }
 }
+
+export const dispatchAddNewChatBoxAndContact = (newChatBoxList, newContactList) => {
+    return {
+        type: ACTIONS.ADD_CHATBOX_CONTACT,
+        payload: {
+            newChatBoxList,
+            newContactList
+        }
+    }
+}
