@@ -5,6 +5,7 @@ import axios from "axios";
 import * as authActions from "../../redux/actions/AuthAction"
 import * as messageAction from "../../redux/actions/MessageAction"
 import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
+import * as chatBoxListActions from "../../redux/actions/ChatBoxListAction"
 
 function ChatMessage() {
 
@@ -92,13 +93,12 @@ function ChatMessage() {
 
         const res = await axios.post("/chatbox/create-chat-box", newChatBox)
         if (res) {
-            let chatBoxList = myUser.chatBoxList
-            chatBoxList.push(res.data)
-
             let contactUserList = myUser.contactUserList
             contactUserList.push(chatBox.chattingUser)
 
-            dispatch(authActions.dispatchAddNewChatBoxAndContact(chatBoxList, contactUserList))
+            dispatch(authActions.dispatchAddNewContact(contactUserList))
+
+            dispatch(chatBoxListActions.dispatchAddNewChatBox(res.data))
 
             dispatch(messageAction.dispatchFetchMessage([]))
 

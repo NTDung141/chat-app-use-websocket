@@ -68,7 +68,9 @@ function SearchContact() {
     }
 
     const showContactList = () => {
-        const result = contactList.map(contact => {
+        const contactListToShow = contactList.filter(contact => contact.id !== myUser.id)
+
+        const result = contactListToShow.map(contact => {
             const contactName = contact.firstName + " " + contact.lastName
             return (
                 <div className="contact-item" onClick={() => moveToChatBox(contact.id)} data-dismiss="modal">

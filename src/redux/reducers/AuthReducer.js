@@ -4,7 +4,8 @@ const initialState = {
     user: {
         id: "",
         username: "",
-        refName: "",
+        firstName: "",
+        lastName: "",
         chatBoxList: [],
         contactUserList: []
     },
@@ -25,12 +26,11 @@ const AuthReducer = (state = initialState, action) => {
                 isLogged: false
             }
 
-        case ACTIONS.ADD_CHATBOX_CONTACT:
+        case ACTIONS.ADD_CONTACT:
             return {
                 ...state,
                 user: {
                     ...state.user,
-                    chatBoxList: action.payload.newChatBoxList,
                     contactUserList: action.payload.newContactList
                 }
             }

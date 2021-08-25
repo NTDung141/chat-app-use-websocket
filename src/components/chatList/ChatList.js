@@ -4,11 +4,11 @@ import axios from "axios"
 import * as messageAction from "../../redux/actions/MessageAction"
 import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
 import * as realTimeAction from "../../redux/actions/RealTimeAction"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 
 function ChatList() {
     const myUser = useSelector(state => state.AuthReducer.user)
-    const [chatBoxList, setChatBoxList] = useState(myUser.chatBoxList)
+    const chatBoxList = useSelector(state => state.ChatBoxListReducer)
     const contactUserList = myUser.contactUserList
     const receivedMessage = useSelector(state => state.RealTimeReducer.receivedMessage)
     const chatBoxId = useSelector(state => state.ChatBoxReducer.chatBoxId)
@@ -77,16 +77,29 @@ function ChatList() {
         }
     }, [receivedMessage])
 
-    const lastMessage = (itemId) => {
-        if (itemId === receivedMessage.chatBoxId && itemId !== chatBoxId) {
+    const lastMessage = (item) => {
+        if (item.id === receivedMessage.chatBoxId && item.id !== chatBoxId) {
             return (
                 <div className="chatbox-item__new-message"> {`${receivedMessage.senderName}: ${receivedMessage.message}`} </div>
             )
         }
         else {
-            return (
-                <div className="chatbox-item__last-message"> Last message</div>
-            )
+            if (item.lastMessage) {
+                return (
+                    <div className="chatbox-item__last-message">
+                        {
+                            item.lastMessage.senderId === myUser.id
+                                ? (`You: ${item.lastMessage.message}`)
+                                : (`${item.lastMessage.senderName}: ${item.lastMessage.message}`)
+                        }
+                    </div>
+                )
+            }
+            else {
+                return (
+                    <div className="chatbox-item__last-message">Say something</div>
+                )
+            }
         }
     }
 
@@ -107,7 +120,7 @@ function ChatList() {
                                 {chattingUsername}
                             </div>
 
-                            {lastMessage(item.id)}
+                            {lastMessage(item)}
                         </div>
 
                         <span className={item.id === receivedMessage.chatBoxId && item.id !== chatBoxId ? "chatbox-item__unread-message-active" : "chatbox-item__unread-message"}></span>

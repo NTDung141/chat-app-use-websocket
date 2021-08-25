@@ -15,11 +15,10 @@ export const dispatchLogout = () => {
     }
 }
 
-export const dispatchAddNewChatBoxAndContact = (newChatBoxList, newContactList) => {
+export const dispatchAddNewContact = (newContactList) => {
     return {
-        type: ACTIONS.ADD_CHATBOX_CONTACT,
+        type: ACTIONS.ADD_CONTACT,
         payload: {
-            newChatBoxList,
             newContactList
         }
     }

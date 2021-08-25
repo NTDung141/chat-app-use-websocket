@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import authApi from "../../enum/apis/auth/auth-api";
 import * as authActions from "../../redux/actions/AuthAction"
+import * as chatBoxListActions from "../../redux/actions/ChatBoxListAction"
 import { useHistory } from "react-router-dom";
 import "./LoginPage.css"
 
@@ -35,6 +36,7 @@ function LoginPage() {
             const res = await axios.post(authApi.login, loginRequest)
             const user = res.data.user
             dispatch(authActions.dispatchLogin(user))
+            dispatch(chatBoxListActions.dispatchFetchChatBox(user.chatBoxList))
             history.push("/chat")
         }
         catch (e) {

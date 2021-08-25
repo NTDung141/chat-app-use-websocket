@@ -8,6 +8,7 @@ import axios from "axios";
 import * as messageActions from "../../redux/actions/MessageAction"
 import messageApi from "../../enum/apis/message/message-api";
 import * as realTimeActions from "../../redux/actions/RealTimeAction"
+import * as chatBoxListActions from "../../redux/actions/ChatBoxListAction"
 
 function ChatPage() {
 
@@ -45,6 +46,9 @@ function ChatPage() {
                 receiverId: chatBox.chattingUser.id
             }
             dispatch(messageActions.dispatchSendMessage(newMessage))
+
+            dispatch(chatBoxListActions.dispatchAddNewMessageToChatBox(newMessage))
+
             sendMessage()
             setMessage({
                 senderId: "",
@@ -86,6 +90,8 @@ function ChatPage() {
         }
         else {
             dispatch(realTimeActions.dispatchReceiveMessage(resBody))
+
+            dispatch(chatBoxListActions.dispatchAddNewMessageToChatBox(resBody))
         }
     }
 
