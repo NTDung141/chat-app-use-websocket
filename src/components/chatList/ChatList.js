@@ -77,6 +77,18 @@ function ChatList() {
         }
     }, [receivedMessage])
 
+    const getSenderName = (senderName) => {
+        const name = senderName.split(" ")
+        return name[name.length - 1]
+    }
+
+    const lastMessageContent = (messageContent) => {
+        if (messageContent.length > 30) {
+            messageContent = messageContent.slice(0, 28) + "..."
+        }
+        return messageContent
+    }
+
     const lastMessage = (item) => {
         if (item.id === receivedMessage.chatBoxId && item.id !== chatBoxId) {
             return (
@@ -89,8 +101,8 @@ function ChatList() {
                     <div className="chatbox-item__last-message">
                         {
                             item.lastMessage.senderId === myUser.id
-                                ? (`You: ${item.lastMessage.message}`)
-                                : (`${item.lastMessage.senderName}: ${item.lastMessage.message}`)
+                                ? lastMessageContent(`You: ${item.lastMessage.message}`)
+                                : lastMessageContent(`${getSenderName(item.lastMessage.senderName)}: ${item.lastMessage.message}`)
                         }
                     </div>
                 )

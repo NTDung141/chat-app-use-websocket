@@ -9,6 +9,7 @@ import * as messageActions from "../../redux/actions/MessageAction"
 import messageApi from "../../enum/apis/message/message-api";
 import * as realTimeActions from "../../redux/actions/RealTimeAction"
 import * as chatBoxListActions from "../../redux/actions/ChatBoxListAction"
+import * as authActions from "../../redux/actions/AuthAction"
 
 function ChatPage() {
 
@@ -17,6 +18,7 @@ function ChatPage() {
     const myUser = useSelector(state => state.AuthReducer.user)
     const messageList = useSelector(state => state.MessageReducer)
     const chatBox = useSelector(state => state.ChatBoxReducer)
+    const chatBoxList = useSelector(state => state.ChatBoxListReducer)
 
     const [message, setMessage] = useState({
         senderId: "",
@@ -38,18 +40,23 @@ function ChatPage() {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (message.message !== "") {
+            const now = new Date()
+            const sendTimeUnix = Math.floor(now / 1000)
+
             const newMessage = {
                 senderId: message.senderId,
                 senderName: message.senderName,
                 message: message.message,
                 chatBoxId: chatBox.chatBoxId,
-                receiverId: chatBox.chattingUser.id
+                receiverId: chatBox.chattingUser.id,
+                sendTimeUnix: sendTimeUnix
             }
+
             dispatch(messageActions.dispatchSendMessage(newMessage))
 
             dispatch(chatBoxListActions.dispatchAddNewMessageToChatBox(newMessage))
 
-            sendMessage()
+            sendMessage(newMessage)
             setMessage({
                 senderId: "",
                 senderName: "",
@@ -71,27 +78,41 @@ function ChatPage() {
         connect()
     }, [])
 
-    const sendMessage = async () => {
-        const newMessage = {
-            senderId: message.senderId,
-            senderName: message.senderName,
-            message: message.message,
-            chatBoxId: chatBox.chatBoxId,
-            receiverId: chatBox.chattingUser.id
-        }
+    const sendMessage = async (newMessage) => {
         const res = await axios.post(messageApi.createMessage, newMessage)
     }
 
-    const recieveMessage = (res) => {
+    const recieveMessage = async (res) => {
         const resBody = JSON.parse(res.body)
         const chatBoxId = localStorage.getItem(`${myUser.id}`)
         if (resBody.chatBoxId === chatBoxId) {
             dispatch(messageActions.dispatchSendMessage(resBody))
         }
         else {
-            dispatch(realTimeActions.dispatchReceiveMessage(resBody))
+            let isExistedChatBox = false
 
-            dispatch(chatBoxListActions.dispatchAddNewMessageToChatBox(resBody))
+            chatBoxList.forEach(item => {
+                if (item.id === resBody.chatBoxId) {
+                    isExistedChatBox = true
+                }
+            })
+
+            if (isExistedChatBox) {
+                dispatch(realTimeActions.dispatchReceiveMessage(resBody))
+
+                dispatch(chatBoxListActions.dispatchAddNewMessageToChatBox(resBody))
+            }
+            else {
+                const res = await axios.get(`/user/${myUser.id}`)
+
+                if (res) {
+                    const user = res.data
+                    dispatch(authActions.dispatchLogin(user))
+                    dispatch(chatBoxListActions.dispatchFetchChatBox(user.chatBoxList))
+                }
+            }
+
+
         }
     }
 

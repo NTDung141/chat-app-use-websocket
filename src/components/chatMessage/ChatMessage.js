@@ -3,9 +3,10 @@ import { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import * as authActions from "../../redux/actions/AuthAction"
-import * as messageAction from "../../redux/actions/MessageAction"
+import * as messageActions from "../../redux/actions/MessageAction"
 import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
 import * as chatBoxListActions from "../../redux/actions/ChatBoxListAction"
+import messageApi from "../../enum/apis/message/message-api";
 
 function ChatMessage() {
 
@@ -87,8 +88,12 @@ function ChatMessage() {
     }
 
     const createNewChatRoom = async () => {
+        const now = new Date()
+        const lastTimeAccessUnix = Math.floor(now / 1000)
+
         const newChatBox = {
-            userIdList: [myUser.id, chatBox.chattingUser.id]
+            userIdList: [myUser.id, chatBox.chattingUser.id],
+            lastTimeAccessUnix: lastTimeAccessUnix
         }
 
         const res = await axios.post("/chatbox/create-chat-box", newChatBox)
@@ -100,11 +105,25 @@ function ChatMessage() {
 
             dispatch(chatBoxListActions.dispatchAddNewChatBox(res.data))
 
-            dispatch(messageAction.dispatchFetchMessage([]))
+            dispatch(messageActions.dispatchFetchMessage([]))
 
             dispatch(chatBoxAction.dispatchChangeChatBoxId(res.data.id, chatBox.chattingUser))
             localStorage.setItem(`${myUser.id}`, res.data.id)
         }
+
+        const newMessage = {
+            senderId: myUser.id,
+            senderName: myUser.firstName + " " + myUser.lastName,
+            message: `Hi! I'm ${myUser.firstName} ${myUser.lastName}. Nice to meet you.`,
+            chatBoxId: res.data.id,
+            receiverId: chatBox.chattingUser.id,
+            sendTimeUnix: lastTimeAccessUnix
+        }
+
+        const res2 = await axios.post(messageApi.createMessage, newMessage)
+        dispatch(messageActions.dispatchSendMessage(newMessage))
+
+        dispatch(chatBoxListActions.dispatchAddNewMessageToChatBox(newMessage))
     }
 
     const saySomething = () => {

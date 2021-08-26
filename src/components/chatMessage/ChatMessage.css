@@ -20,6 +20,7 @@
     color: white;
     border-radius: 15px 15px 15px 15px;
     padding: 5px 7px 5px 7px;
+    max-width: 40%;
 }
 
 .friend-message {
@@ -56,6 +57,7 @@
     font-weight: 200;
     border-radius: 15px 15px 15px 15px;
     padding: 5px 7px 5px 7px;
+    max-width: 40%;
 }
 
 .welcome-new-contact {

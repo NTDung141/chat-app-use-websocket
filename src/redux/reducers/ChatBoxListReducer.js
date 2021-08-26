@@ -8,10 +8,11 @@ const ChatBoxListReducer = (state = initialState, action) => {
             return action.payload.chatBoxList
 
         case ACTIONS.ADD_CHATBOX:
-            return [
-                ...state,
-                action.payload.newChatBox
-            ]
+            let addNewItemChatBoxList = state
+
+            addNewItemChatBoxList.unshift(action.payload.newChatBox)
+
+            return addNewItemChatBoxList
 
         case ACTIONS.ADD_NEW_MESSAGE_TO_CHATBOX:
             const newMessage = action.payload.newMessage
