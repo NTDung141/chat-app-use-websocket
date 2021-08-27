@@ -6,7 +6,9 @@ import * as authActions from "../../redux/actions/AuthAction"
 import * as messageActions from "../../redux/actions/MessageAction"
 import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
 import * as chatBoxListActions from "../../redux/actions/ChatBoxListAction"
-import messageApi from "../../enum/apis/message/message-api";
+import messageApi from "../../enum/apis/message/message-api"
+import chatboxApi from "../../enum/apis/chatBox/chatbox-api";
+import headerToken from "../../enum/headerWithToken/header-token";
 
 function ChatMessage() {
 
@@ -96,7 +98,7 @@ function ChatMessage() {
             lastTimeAccessUnix: lastTimeAccessUnix
         }
 
-        const res = await axios.post("/chatbox/create-chat-box", newChatBox)
+        const res = await axios.post(chatboxApi.createChatBox, newChatBox, headerToken.headerWithToken(myUser.id))
         if (res) {
             let contactUserList = myUser.contactUserList
             contactUserList.push(chatBox.chattingUser)
@@ -120,7 +122,7 @@ function ChatMessage() {
             sendTimeUnix: lastTimeAccessUnix
         }
 
-        const res2 = await axios.post(messageApi.createMessage, newMessage)
+        const res2 = await axios.post(messageApi.createMessage, newMessage, headerToken.headerWithToken(myUser.id))
         dispatch(messageActions.dispatchSendMessage(newMessage))
 
         dispatch(chatBoxListActions.dispatchAddNewMessageToChatBox(newMessage))

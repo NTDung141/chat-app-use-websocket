@@ -6,6 +6,7 @@ import * as authActions from "../../redux/actions/AuthAction"
 import * as chatBoxListActions from "../../redux/actions/ChatBoxListAction"
 import { useHistory } from "react-router-dom";
 import "./LoginPage.css"
+import Cookies from "js-cookie";
 
 function LoginPage() {
 
@@ -34,10 +35,15 @@ function LoginPage() {
 
         try {
             const res = await axios.post(authApi.login, loginRequest)
-            const user = res.data.user
-            dispatch(authActions.dispatchLogin(user))
-            dispatch(chatBoxListActions.dispatchFetchChatBox(user.chatBoxList))
-            history.push("/chat")
+
+            if (res) {
+                const user = res.data.user
+                dispatch(authActions.dispatchLogin(user))
+                dispatch(chatBoxListActions.dispatchFetchChatBox(user.chatBoxList))
+                Cookies.set(`${user.id}-TOKEN`, res.data.token)
+                history.push("/chat")
+            }
+
         }
         catch (e) {
             console.log(e)

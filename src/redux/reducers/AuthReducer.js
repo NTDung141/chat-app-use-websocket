@@ -21,10 +21,7 @@ const AuthReducer = (state = initialState, action) => {
             }
 
         case ACTIONS.LOGOUT:
-            return {
-                ...state,
-                isLogged: false
-            }
+            return initialState
 
         case ACTIONS.ADD_CONTACT:
             return {

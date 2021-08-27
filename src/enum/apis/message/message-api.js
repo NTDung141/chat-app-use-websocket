@@ -1,5 +1,8 @@
-const baseUrl = "/message"
+const getMessageByChatBoxId = (chatBoxId) => {
+    return `/message/${chatBoxId}`
+}
 
 export default {
-    createMessage: `${baseUrl}/create-message`
+    createMessage: "/message/create-message",
+    getMessageByChatBoxId
 }

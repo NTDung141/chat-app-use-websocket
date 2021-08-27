@@ -5,6 +5,8 @@ import * as messageAction from "../../redux/actions/MessageAction"
 import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
 import * as realTimeAction from "../../redux/actions/RealTimeAction"
 import { useEffect } from "react"
+import messageApi from "../../enum/apis/message/message-api"
+import headerToken from "../../enum/headerWithToken/header-token"
 
 function ChatList() {
     const myUser = useSelector(state => state.AuthReducer.user)
@@ -18,7 +20,7 @@ function ChatList() {
     const handleClick = async (chatBoxId, chattingUserId) => {
         const chattingUser = myUser.contactUserList.find(contact => contact.id === chattingUserId)
 
-        const res = await axios.get(`/message/${chatBoxId}`)
+        const res = await axios.get(messageApi.getMessageByChatBoxId(chatBoxId), headerToken.headerWithToken(myUser.id))
         dispatch(messageAction.dispatchFetchMessage(res.data))
 
         dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUser))
@@ -63,7 +65,7 @@ function ChatList() {
 
             const chatBoxId = chatBoxList[0].id
 
-            const res = await axios.get(`/message/${chatBoxId}`)
+            const res = await axios.get(messageApi.getMessageByChatBoxId(chatBoxId), headerToken.headerWithToken(myUser.id))
             dispatch(messageAction.dispatchFetchMessage(res.data))
 
             dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUser))

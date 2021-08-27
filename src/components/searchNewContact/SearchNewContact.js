@@ -4,6 +4,9 @@ import { useSelector, useDispatch } from "react-redux"
 import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
 import * as messageAction from "../../redux/actions/MessageAction"
 import axios from "axios"
+import userApi from "../../enum/apis/user/user-api"
+import messageApi from "../../enum/apis/message/message-api"
+import headerToken from "../../enum/headerWithToken/header-token"
 
 function SearchNewContact() {
 
@@ -16,7 +19,7 @@ function SearchNewContact() {
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        const res = await axios.get("/user/all-user")
+        const res = await axios.get(userApi.getAllUserList, headerToken.headerWithToken(myUser.id))
 
         if (res) {
             const userList = res.data.filter(contact => contact.id !== myUser.id)
@@ -71,7 +74,7 @@ function SearchNewContact() {
             dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBox.id, chattingUser))
             localStorage.setItem(`${myUser.id}`, chatBox.id)
 
-            const res = await axios.get(`/message/${chatBox.id}`)
+            const res = await axios.get(messageApi.getMessageByChatBoxId(chatBox.id), headerToken.headerWithToken(myUser.id))
 
             dispatch(messageAction.dispatchFetchMessage(res.data))
 
@@ -108,16 +111,16 @@ function SearchNewContact() {
         <div className="search-new-contact">
             <div className="header__search" data-toggle="modal" data-target="#searchNewContactModel">Search new contact</div>
 
-            <div class="modal fade" id="searchNewContactModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Search new contact</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onClick={removeSearchValue}>
+            <div className="modal fade" id="searchNewContactModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">Search new contact</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={removeSearchValue}>
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <div className="search-new-contact__search">
                                 <input className="header__search" placeholder="Search new contact" name="searchValue" value={searchValue} onChange={handleInputChange} />
                             </div>
@@ -126,8 +129,8 @@ function SearchNewContact() {
                                 {showSearchList()}
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" onClick={removeSearchValue}>Close</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={removeSearchValue}>Close</button>
                         </div>
                     </div>
                 </div>

@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from "react-redux"
 import * as chatBoxAction from "../../redux/actions/ChatBoxAction"
 import * as messageAction from "../../redux/actions/MessageAction"
 import axios from "axios"
+import messageApi from "../../enum/apis/message/message-api"
+import headerToken from "../../enum/headerWithToken/header-token"
 
 function SearchContact() {
     const myUser = useSelector(state => state.AuthReducer.user)
@@ -60,7 +62,7 @@ function SearchContact() {
         dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBox.id, chattingUser))
         localStorage.setItem(`${myUser.id}`, chatBox.id)
 
-        const res = await axios.get(`/message/${chatBox.id}`)
+        const res = await axios.get(messageApi.getMessageByChatBoxId(chatBox.id), headerToken.headerWithToken(myUser.id))
 
         dispatch(messageAction.dispatchFetchMessage(res.data))
 

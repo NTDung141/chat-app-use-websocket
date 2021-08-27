@@ -10,6 +10,8 @@ import messageApi from "../../enum/apis/message/message-api";
 import * as realTimeActions from "../../redux/actions/RealTimeAction"
 import * as chatBoxListActions from "../../redux/actions/ChatBoxListAction"
 import * as authActions from "../../redux/actions/AuthAction"
+import userApi from "../../enum/apis/user/user-api";
+import headerToken from "../../enum/headerWithToken/header-token";
 
 function ChatPage() {
 
@@ -79,7 +81,7 @@ function ChatPage() {
     }, [])
 
     const sendMessage = async (newMessage) => {
-        const res = await axios.post(messageApi.createMessage, newMessage)
+        const res = await axios.post(messageApi.createMessage, newMessage, headerToken.headerWithToken(myUser.id))
     }
 
     const recieveMessage = async (res) => {
@@ -103,7 +105,7 @@ function ChatPage() {
                 dispatch(chatBoxListActions.dispatchAddNewMessageToChatBox(resBody))
             }
             else {
-                const res = await axios.get(`/user/${myUser.id}`)
+                const res = await axios.get(userApi.getUserById(myUser.id), headerToken.headerWithToken(myUser.id))
 
                 if (res) {
                     const user = res.data

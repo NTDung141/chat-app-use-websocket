@@ -1,13 +1,16 @@
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import * as authActions from "../../redux/actions/AuthAction"
 import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
 
 function LogoutPage() {
     const dispatch = useDispatch()
     const history = useHistory()
+    const myUser = useSelector(state => state.AuthReducer.user)
 
     const logout = () => {
         dispatch(authActions.dispatchLogout())
+        Cookies.remove(`${myUser.id}-TOKEN`)
         history.push("/")
     }
 
@@ -22,8 +25,8 @@ function LogoutPage() {
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 class="modal-title">
-                                <i class="fas fa-exclamation-triangle mr-2"></i>
+                            <h5 className="modal-title">
+                                <i className="fas fa-exclamation-triangle mr-2"></i>
                                 Warning
                             </h5>
 

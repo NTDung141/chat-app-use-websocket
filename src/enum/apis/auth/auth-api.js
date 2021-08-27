@@ -1,4 +1,4 @@
-const baseUrl = "/user"
+const baseUrl = "/auth"
 
 export default {
     login: `${baseUrl}/login`,
