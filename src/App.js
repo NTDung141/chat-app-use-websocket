@@ -4,6 +4,7 @@ import {
 } from "react-router-dom";
 import HeaderComponent from './components/header/HeaderComponent';
 import Routes from './routes';
+import "react-app-polyfill/stable"
 
 function App() {
   return (
