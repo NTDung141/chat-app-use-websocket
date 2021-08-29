@@ -33,21 +33,35 @@ function LoginPage() {
             password: user.password
         }
 
-        try {
-            const res = await axios.post(authApi.login, loginRequest)
+        // try {
+        //     const res = await axios.post(authApi.login, loginRequest)
 
-            if (res) {
-                const user = res.data.user
-                dispatch(authActions.dispatchLogin(user))
-                dispatch(chatBoxListActions.dispatchFetchChatBox(user.chatBoxList))
-                Cookies.set(`${user.id}-TOKEN`, res.data.token)
-                history.push("/chat")
-            }
+        //     if (res) {
+        //         const user = res.data.user
+        //         dispatch(authActions.dispatchLogin(user))
+        //         dispatch(chatBoxListActions.dispatchFetchChatBox(user.chatBoxList))
+        //         Cookies.set(`${user.id}-TOKEN`, res.data.token)
+        //         history.push("/chat")
+        //     }
 
-        }
-        catch (e) {
-            console.log(e)
-        }
+        // }
+        // catch (e) {
+        //     console.log(e)
+        // }
+
+        await axios({
+            method: "POST",
+            url: authApi.login,
+            data: loginRequest
+        }).then(res => {
+            const user = res.data.user
+            dispatch(authActions.dispatchLogin(user))
+            dispatch(chatBoxListActions.dispatchFetchChatBox(user.chatBoxList))
+            Cookies.set(`${user.id}-TOKEN`, res.data.token)
+            history.push("/chat")
+        }).catch(error => {
+            console.log(error)
+        })
     }
 
     return (
