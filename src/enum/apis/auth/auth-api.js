@@ -1,4 +1,6 @@
+const baseUrl = "http://localhost:8080"
+
 export default {
-    login: "/auth/login",
+    login: `${baseUrl}/auth/login`,
     register: "/auth/register",
 }
