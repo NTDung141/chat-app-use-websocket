@@ -1,6 +1,4 @@
-const baseUrl = "/auth"
-
 export default {
-    login: `${baseUrl}/login`,
-    register: `${baseUrl}/register`,
+    login: "/auth/login",
+    register: "/auth/register",
 }
