@@ -21,6 +21,7 @@ function ChatPage() {
     const messageList = useSelector(state => state.MessageReducer)
     const chatBox = useSelector(state => state.ChatBoxReducer)
     const chatBoxList = useSelector(state => state.ChatBoxListReducer)
+    const baseUrl = "http://localhost:8080"
 
     const [message, setMessage] = useState({
         senderId: "",
@@ -68,11 +69,11 @@ function ChatPage() {
     }
 
     const connect = () => {
-        const socket = new SockJS("/socket-server")
+        const socket = new SockJS(baseUrl + "/socket-server")
         stompClient = Stomp.over(socket)
         stompClient.connect({}, () => {
             console.log("Kêt nối thành công")
-            stompClient.subscribe(`/topic/message/${myUser.id}`, recieveMessage)
+            stompClient.subscribe(baseUrl + `/topic/message/${myUser.id}`, recieveMessage)
         })
     }
 
@@ -105,7 +106,7 @@ function ChatPage() {
                 dispatch(chatBoxListActions.dispatchAddNewMessageToChatBox(resBody))
             }
             else {
-                const res = await axios.get(userApi.getUserById(myUser.id), headerToken.headerWithToken(myUser.id))
+                const res = await axios.get(userApi.getUserById(myUser.id), null, headerToken.headerWithToken(myUser.id))
 
                 if (res) {
                     const user = res.data

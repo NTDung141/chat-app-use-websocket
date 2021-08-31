@@ -62,7 +62,7 @@ function SearchContact() {
         dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBox.id, chattingUser))
         localStorage.setItem(`${myUser.id}`, chatBox.id)
 
-        const res = await axios.get(messageApi.getMessageByChatBoxId(chatBox.id), headerToken.headerWithToken(myUser.id))
+        const res = await axios.get(messageApi.getMessageByChatBoxId(chatBox.id), null, headerToken.headerWithToken(myUser.id))
 
         dispatch(messageAction.dispatchFetchMessage(res.data))
 

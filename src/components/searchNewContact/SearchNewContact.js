@@ -19,7 +19,7 @@ function SearchNewContact() {
     const dispatch = useDispatch()
 
     useEffect(async () => {
-        const res = await axios.get(userApi.getAllUserList, headerToken.headerWithToken(myUser.id))
+        const res = await axios.get(userApi.getAllUserList, null, headerToken.headerWithToken(myUser.id))
 
         if (res) {
             const userList = res.data.filter(contact => contact.id !== myUser.id)
@@ -74,7 +74,7 @@ function SearchNewContact() {
             dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBox.id, chattingUser))
             localStorage.setItem(`${myUser.id}`, chatBox.id)
 
-            const res = await axios.get(messageApi.getMessageByChatBoxId(chatBox.id), headerToken.headerWithToken(myUser.id))
+            const res = await axios.get(messageApi.getMessageByChatBoxId(chatBox.id), null, headerToken.headerWithToken(myUser.id))
 
             dispatch(messageAction.dispatchFetchMessage(res.data))
 

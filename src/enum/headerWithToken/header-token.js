@@ -6,7 +6,7 @@ const headerWithToken = (myUserId) => {
     if (token && myUserId) {
         return {
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: "Bearer " + token
             }
         }
     }

@@ -20,7 +20,7 @@ function ChatList() {
     const handleClick = async (chatBoxId, chattingUserId) => {
         const chattingUser = myUser.contactUserList.find(contact => contact.id === chattingUserId)
 
-        const res = await axios.get(messageApi.getMessageByChatBoxId(chatBoxId), headerToken.headerWithToken(myUser.id))
+        const res = await axios.get(messageApi.getMessageByChatBoxId(chatBoxId), null, headerToken.headerWithToken(myUser.id))
         dispatch(messageAction.dispatchFetchMessage(res.data))
 
         dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUser))
@@ -65,7 +65,7 @@ function ChatList() {
 
             const chatBoxId = chatBoxList[0].id
 
-            const res = await axios.get(messageApi.getMessageByChatBoxId(chatBoxId), headerToken.headerWithToken(myUser.id))
+            const res = await axios.get(messageApi.getMessageByChatBoxId(chatBoxId), null, headerToken.headerWithToken(myUser.id))
             dispatch(messageAction.dispatchFetchMessage(res.data))
 
             dispatch(chatBoxAction.dispatchChangeChatBoxId(chatBoxId, chattingUser))
