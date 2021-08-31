@@ -1,8 +1,10 @@
+const baseUrl = "https://server-chat-app-websocket.herokuapp.com"
+
 const getMessageByChatBoxId = (chatBoxId) => {
-    return `/message/${chatBoxId}`
+    return `${baseUrl}/message/${chatBoxId}`
 }
 
 export default {
-    createMessage: "/message/create-message",
+    createMessage: `${baseUrl}/message/create-message`,
     getMessageByChatBoxId
 }

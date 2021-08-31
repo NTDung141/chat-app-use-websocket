@@ -1,8 +1,10 @@
+const baseUrl = "https://server-chat-app-websocket.herokuapp.com"
+
 const getUserById = (userId) => {
-    return `user/${userId}`
+    return `${baseUrl}user/${userId}`
 }
 
 export default {
-    getAllUserList: "user/all-user",
+    getAllUserList: `${baseUrl}user/all-user`,
     getUserById
 }

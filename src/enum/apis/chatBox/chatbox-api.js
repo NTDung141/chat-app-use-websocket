@@ -1,3 +1,5 @@
+const baseUrl = "https://server-chat-app-websocket.herokuapp.com"
+
 export default {
-    createChatBox: "chatbox/create-chat-box"
+    createChatBox: `${baseUrl}chatbox/create-chat-box`
 }

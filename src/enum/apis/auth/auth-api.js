@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8080"
+const baseUrl = "https://server-chat-app-websocket.herokuapp.com"
 
 export default {
     login: `${baseUrl}/auth/login`,
