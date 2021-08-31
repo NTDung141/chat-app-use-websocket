@@ -21,7 +21,7 @@ function ChatPage() {
     const messageList = useSelector(state => state.MessageReducer)
     const chatBox = useSelector(state => state.ChatBoxReducer)
     const chatBoxList = useSelector(state => state.ChatBoxListReducer)
-    const baseUrl = "http://localhost:8080"
+    const baseUrl = "https://server-chat-app-websocket.herokuapp.com"
 
     const [message, setMessage] = useState({
         senderId: "",
