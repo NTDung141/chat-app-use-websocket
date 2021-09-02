@@ -22,6 +22,7 @@ function ChatPage() {
     const chatBox = useSelector(state => state.ChatBoxReducer)
     const chatBoxList = useSelector(state => state.ChatBoxListReducer)
     const baseUrl = "https://server-chat-app-websocket.herokuapp.com"
+    // const baseUrl = "http://localhost:8080"
 
     const [message, setMessage] = useState({
         senderId: "",
@@ -73,7 +74,7 @@ function ChatPage() {
         stompClient = Stomp.over(socket)
         stompClient.connect({}, () => {
             console.log("Kêt nối thành công")
-            stompClient.subscribe(baseUrl + `/topic/message/${myUser.id}`, recieveMessage)
+            stompClient.subscribe(`/topic/message/${myUser.id}`, recieveMessage)
         })
     }
 
@@ -114,8 +115,6 @@ function ChatPage() {
                     dispatch(chatBoxListActions.dispatchFetchChatBox(user.chatBoxList))
                 }
             }
-
-
         }
     }
 
