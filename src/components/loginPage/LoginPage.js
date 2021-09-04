@@ -70,10 +70,10 @@ function LoginPage() {
                 <div className="login-modal__title">Log In</div>
 
                 <div className="mb-4">
-                    <input className="form-control" name="username" value={user.username} onChange={handleInputChange} placeholder="Username" />
+                    <input className="form-control" name="username" value={user.username} onChange={handleInputChange} placeholder="Username" required />
                 </div>
                 <div className="mb-4">
-                    <input type="password" className="form-control" name="password" value={user.password} onChange={handleInputChange} placeholder="Password" />
+                    <input type="password" className="form-control" name="password" value={user.password} onChange={handleInputChange} placeholder="Password" required />
                 </div>
                 <button type="submit" className="login-modal__btn">Login</button>
             </form>

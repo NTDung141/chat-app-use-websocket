@@ -54,19 +54,19 @@ function RegisterPage() {
                 <div className="register-modal__title">Register</div>
 
                 <div className="mb-4">
-                    <input className="form-control" name="username" value={user.username} onChange={handleInputChange} placeholder="User name" />
+                    <input className="form-control" name="username" value={user.username} onChange={handleInputChange} placeholder="User name" required />
                 </div>
 
                 <div className="mb-4">
-                    <input className="form-control" name="firstName" value={user.firstName} onChange={handleInputChange} placeholder="First Name" />
+                    <input className="form-control" name="firstName" value={user.firstName} onChange={handleInputChange} placeholder="First Name" required />
                 </div>
 
                 <div className="mb-4">
-                    <input className="form-control" name="lastName" value={user.lastName} onChange={handleInputChange} placeholder="Last Name" />
+                    <input className="form-control" name="lastName" value={user.lastName} onChange={handleInputChange} placeholder="Last Name" required />
                 </div>
 
                 <div className="mb-4">
-                    <input type="password" className="form-control" name="password" value={user.password} onChange={handleInputChange} placeholder="Password" />
+                    <input type="password" className="form-control" name="password" value={user.password} onChange={handleInputChange} placeholder="Password" required />
                 </div>
 
                 <button type="submit" className="register-modal__btn">Register</button>
