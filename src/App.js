@@ -5,6 +5,7 @@ import {
 import HeaderComponent from './components/header/HeaderComponent';
 import Routes from './routes';
 import "react-app-polyfill/stable"
+import { ToastContainer } from "react-toastify"
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
         <HeaderComponent />
 
         <Routes />
+
+        <ToastContainer />
       </Router>
     </div>
   );

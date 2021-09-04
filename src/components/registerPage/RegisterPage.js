@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import authApi from "../../enum/apis/auth/auth-api";
 import "./RegisterPage.css"
+import * as notify from "../notification/Notification"
 
 function RegisterPage() {
 
@@ -38,10 +39,12 @@ function RegisterPage() {
             try {
                 const res = await axios.post(authApi.register, registerRequest)
                 if (res.data) {
+                    notify.successNotification("Register Success!")
                     history.push("/login")
                 }
             }
             catch (e) {
+                notify.errorNotification("Register failed!")
                 console.log(e)
             }
         }
